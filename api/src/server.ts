@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./db";
 import * as userRoutes from "./routes/index"
-import { authRouter } from "./routes";
+import { AppError } from "./core/errors";
+
 
 dotenv.config();
 const app = express();
@@ -19,7 +20,17 @@ app.use("/api", userRoutes.authRouter)
 
 const PORT = process.env.PORT || 5000;
 
+
+app.use((err, req, res, next) => {
+    if (err instanceof AppError) {
+        res.status(err.statusCode).json({ error: err.message });
+    } else {
+        res.status(500).json({ error: "Something went wrong" });
+    }
+});
+
+
 app.listen(PORT, async () => {
-  await connectDB;
+  await connectDB();
   console.log(`Server running on port ${PORT}`);
 });

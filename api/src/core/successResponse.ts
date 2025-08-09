@@ -1,11 +1,11 @@
 import { Response } from "express";
 
-export class SuccessResponse {
-  private readonly message: string;
-  private readonly data: any;
-  private readonly statusCode: number;
+export class ParentResponse {
+  protected readonly message: string;
+  protected readonly data: any;
+  protected readonly statusCode: number;
 
-  constructor(message: string, data: any, statusCode: number = 200) {
+  constructor(message: string, data: any, statusCode: number) {
     this.message = message;
     this.data = data;
     this.statusCode = statusCode;
@@ -17,5 +17,17 @@ export class SuccessResponse {
       message: this.message,
       data: this.data,
     });
+  }
+}
+
+export class SuccessResponse extends ParentResponse {
+  constructor(message: string, data: any) {
+    super(message, data, 200);
+  }
+}
+
+export class CreatedResponse extends ParentResponse {
+  constructor(message: string, data: any) {
+    super(message, data, 201);
   }
 }
