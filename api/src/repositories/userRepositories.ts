@@ -6,7 +6,7 @@ async function create(userData: { username: string; email: string; password: str
 }
 
 async function findByEmail(email: string): Promise<User | null> {
-  return UserModel.findOne({ email }).lean().exec();
+  return UserModel.findOne({ email }).exec();
 }
 
 async function findById(id: Types.ObjectId): Promise<User | null> {
