@@ -3,6 +3,9 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../helpers/generateToken';
 import { sendEmail } from '../helpers/sendEmail';
+import { BadRequestError, NotFoundError } from '../core/errors';
+import { CreatedResponse, SuccessResponse } from '../core/successResponse';
+import { errorResponse } from '../core/errorResponse';
 
 
 export const register = async (req: Request, res) => {
@@ -11,7 +14,7 @@ export const register = async (req: Request, res) => {
 
     const existingUser = await userRepo.findByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+     throw new BadRequestError("User already exists");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -23,10 +26,9 @@ export const register = async (req: Request, res) => {
       password: hashedPassword,
     });
 
-
-    res.status(201).json({ message: "User registered successfully", data: newUser });
+    new CreatedResponse("User registered successfully", newUser)
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    errorResponse(error, res);
   }
 };
 
@@ -36,27 +38,20 @@ export const login = async (req: Request, res) => {
   
       const user = await userRepo.findByEmail(email );
       if (!user) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        throw new BadRequestError("Invalid email or password");
       }
   
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        throw new BadRequestError("Invalid email or password");
       }
   
       const token = generateToken({ userId: user._id });
   
-      res.status(200).json({
-        message: "Login successful",
-        token,
-        user: {
-          id: user._id,
-          username: user.username,
-          email: user.email,
-        },
-      });
+      new SuccessResponse("Login successful", 
+        { token, user: { id: user._id, username: user.username, email: user.email } }).send(res);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+       errorResponse(error, res);
     }
   };
   
@@ -77,14 +72,14 @@ export const login = async (req: Request, res) => {
   
       const user = await userRepo.findByEmail(email);
       if (!user) {
-        return res.status(400).json({ message: "User not found" });
+        throw new NotFoundError("User not found");
       }
   
       await sendEmail(user, email);
-  
-      res.status(200).json({ message: "Password reset email sent" });
+      
+      new SuccessResponse("Password reset email sent", {}).send(res);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      errorResponse(error, res);
     }
   };
 
@@ -96,20 +91,20 @@ export const login = async (req: Request, res) => {
       if (email) {
         user = await userRepo.findByEmail(email)
       } else
-         return res.status(400).json({ message: "Please provide an email" });
+         throw new BadRequestError("Please provide a valid email");
       if (user) {
         const saltRounds = 10
         const passwordHash = await bcrypt.hash(newPassword, saltRounds)
         const isSame = await bcrypt.compare(newPassword, user.password)
         
         if (isSame)
-            return res.status(400).json({ message: "You used this password before, please update it" });
+            throw new BadRequestError("You used this password before, please update it");
 
         user.password = passwordHash
         await userRepo.updateInfo(user)
         return res.status(200).json({ message: "Password updated" });
       } else {
-        return res.status(400).json({ message: "User not found" });
+        throw new NotFoundError("User not found");
 
       }
     } catch (error) {
