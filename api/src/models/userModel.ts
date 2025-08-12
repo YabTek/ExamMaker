@@ -20,6 +20,8 @@ const schema = new Schema<User>({
         type: Schema.Types.String,
         required: true,
         unique: true,
+        match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ 
+
     },
     password: {
         type: Schema.Types.String,

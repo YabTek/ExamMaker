@@ -5,25 +5,33 @@ export const COLLECTION_NAME = "quizzes";
 
 export interface Quiz {
   _id: Types.ObjectId;
-  mode: "solo" | "multiplayer"
-  questions: Types.ObjectId[]; 
+  mode: "solo" | "multiplayer";
+  questions: {
+    question: string;
+    choices: string[];
+    correct_answer: number; 
+  }[];
 }
 
-const schema = new Schema<Quiz>({
-    mode: { 
-        type: Schema.Types.String, 
-        enum: ["solo", "multiplayer"], 
-        required: true 
+const schema = new Schema<Quiz>(
+  {
+    mode: {
+      type: String,
+      enum: ["solo", "multiplayer"],
+      required: true,
     },
-    questions: 
-        { type: [Schema.Types.ObjectId], 
-            ref: "Question" 
-        },
-    }, 
-    {
+    questions: [
+      {
+        question: { type: String, required: true },
+        choices: { type: [String], required: true },
+        correct_answer: { type: Number, required: true },
+      },
+    ],
+  },
+  {
     timestamps: true,
     versionKey: false,
-  });
+  }
+);
 
-  
 export const QuizModel = model<Quiz>(DOCUMENT_NAME, schema, COLLECTION_NAME);
