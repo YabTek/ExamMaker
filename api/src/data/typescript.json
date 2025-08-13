@@ -1,0 +1,232 @@
+[
+  {
+    "question": "Which keyword is used to declare a variable in TypeScript?",
+    "choices": ["var", "let", "const", "All of the above"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How do you specify the type of a function's parameter in TypeScript?",
+    "choices": ["function foo(number x) {}", "function foo(x: number) {}", "function foo(x) : number {}", "function foo(x) {}"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of the following types is NOT available in TypeScript?",
+    "choices": ["any", "unknown", "float", "never"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What does the 'interface' keyword do?",
+    "choices": ["Defines a type contract for objects", "Creates a class", "Declares a variable", "Defines a function"],
+    "correct_answer": 0
+  },
+  {
+    "question": "How can you make a property optional in an interface?",
+    "choices": ["optional propertyName: type", "propertyName?: type", "propertyName!: type", "propertyName.optional: type"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which TypeScript feature helps with safer handling of null and undefined?",
+    "choices": ["Non-null assertion operator (!)", "Optional chaining (?.)", "Strict null checks", "All of the above"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is the difference between 'type' and 'interface'?",
+    "choices": ["Types can’t be extended, interfaces can", "Interfaces can be merged, types can’t", "Types and interfaces are exactly the same", "Interfaces are faster at runtime"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare an enum in TypeScript?",
+    "choices": ["enum Color = {Red, Green, Blue}", "enum Color {Red, Green, Blue}", "enum Color: {Red, Green, Blue}", "enum Color => {Red, Green, Blue}"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will be the type of the variable 'x' here?\nlet x = 5;",
+    "choices": ["any", "unknown", "string", "number"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How can you define a function that never returns in TypeScript?",
+    "choices": ["function foo(): void {}", "function foo(): never {}", "function foo(): null {}", "function foo(): undefined {}"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of these is NOT a valid TypeScript access modifier?",
+    "choices": ["private", "protected", "public", "friend"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How do you indicate that a function parameter can be of multiple types?",
+    "choices": ["Using union types (e.g. number | string)", "Using generics", "Using any", "Using tuples"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What does 'readonly' keyword do?",
+    "choices": ["Makes a property optional", "Declares a variable", "Marks a property as immutable", "Creates a constant variable"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the default access modifier for class members in TypeScript?",
+    "choices": ["private", "public", "protected", "readonly"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the use of generics in TypeScript?",
+    "choices": ["To restrict data types", "To create reusable components", "To declare constants", "To handle asynchronous code"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of these statements about TypeScript decorators is true?",
+    "choices": ["They are part of standard JavaScript", "They are used to handle errors", "They replace interfaces", "They can be used to modify classes and members"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which compiler option enables strict type checking?",
+    "choices": ["--noImplicitAny", "--strictNullChecks", "--strict", "--noUnusedLocals"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What will the type of 'foo' be here?\nconst foo = [1, 'hello'];",
+    "choices": ["any[]", "string[]", "(number | string)[]", "number[]"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you specify that a variable should accept any type?",
+    "choices": ["var x: unknown;", "var x: void;", "var x: object;", "var x: any;"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is type assertion in TypeScript?",
+    "choices": ["Telling the compiler to treat a value as a specific type", "Declaring a variable type", "Casting at runtime", "Using generics"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these correctly defines a tuple type?",
+    "choices": ["let x: (string, number);", "let x: [string, number];", "let x: array[string, number];", "let x: tuple<string, number>;"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare an optional parameter in a function?",
+    "choices": ["function foo(bar!: number) {}", "function foo(optional bar: number) {}", "function foo(bar: number = optional) {}", "function foo(bar?: number) {}"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is the output type of a function with no return statement?",
+    "choices": ["undefined", "never", "null", "void"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is the difference between 'null' and 'undefined' in TypeScript?",
+    "choices": ["null is an assigned value, undefined means variable not assigned", "They are exactly the same", "undefined is a value, null means variable not assigned", "Both represent errors"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these is a TypeScript utility type?",
+    "choices": ["Mutable", "Partial", "Interface", "Enum"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What does the 'as' keyword do?",
+    "choices": ["Declares a variable", "Defines a type alias", "Performs type assertion", "Declares a class"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which syntax is used to define a type alias?",
+    "choices": ["type MyType = string | number;", "alias MyType = string | number;", "typedef MyType = string | number;", "typealias MyType = string | number;"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What is the meaning of the 'never' type?",
+    "choices": ["Variable can never be null", "Variable never changes", "Function never returns", "Data type never used"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which of these is NOT a valid TypeScript type?",
+    "choices": ["boolean", "int", "string", "any"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of these can be used to check the type of a variable?",
+    "choices": ["instanceof", "typeOf", "typeIs", "typeof"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What does the 'keyof' operator do?",
+    "choices": ["Returns the type of a key", "Returns a union of all keys of a type", "Checks if key exists", "Extracts values of keys"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare a read-only array?",
+    "choices": ["const string[]", "immutable string[]", "readonly string[]", "string[] readonly"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the type of an uninitialized variable with no type annotation?",
+    "choices": ["undefined", "any", "null", "never"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will the type of 'bar' be?\nlet bar: any = 10;",
+    "choices": ["number", "unknown", "void", "any"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which of the following statements about TypeScript modules is true?",
+    "choices": ["Each file is a module by default", "Modules must be explicitly declared", "Modules only exist in runtime", "Modules cannot export types"],
+    "correct_answer": 0
+  },
+  {
+    "question": "How do you import a module in TypeScript?",
+    "choices": ["require('./MyClass');", "import { MyClass } from './MyClass';", "include './MyClass';", "using './MyClass';"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of these best describes structural typing?",
+    "choices": ["Types are compatible based on their members", "Types are compatible only by name", "Types cannot be extended", "Types are incompatible by default"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which symbol is used for intersection types?",
+    "choices": ["|", "^", "~", "&"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What does the 'infer' keyword do?",
+    "choices": ["Defines a type alias", "Extracts type variables in conditional types", "Declares a variable", "Performs type assertion"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the difference between 'interface' and 'type' when defining object types?",
+    "choices": ["Interfaces can be merged, types can’t", "Types can be extended, interfaces can’t", "They are exactly the same", "Types support declaration merging"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these TypeScript features supports type-safe event handling?",
+    "choices": ["Union types", "Type guards", "Enums", "Generics"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which TypeScript utility type constructs a type with all properties set to optional?",
+    "choices": ["Required", "Readonly", "Partial", "Pick"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the output type of this function?\nfunction foo(): void {}",
+    "choices": ["any", "undefined", "void", "never"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you make all properties of a type required?",
+    "choices": ["Required<Type>", "Partial<Type>", "Readonly<Type>", "Pick<Type, keyof Type>"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of the following is true about 'any' type?",
+    "choices": ["Is safer than unknown", "Disables type checking", "Can be assigned only to itself", "Can be used only with primitive types"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the main benefit of TypeScript over JavaScript?",
+    "choices": ["Better runtime performance", "Smaller bundle size", "Static type checking", "Supports all browsers natively"],
+    "correct_answer": 2
+  }
+]

@@ -1,0 +1,485 @@
+[
+  {
+    "question": "Which company developed JavaScript?",
+    "choices": ["Microsoft", "Google", "Netscape", "Apple"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the output of: console.log(typeof NaN);",
+    "choices": ["number", "NaN", "undefined", "object"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which keyword declares a block-scoped variable in JavaScript?",
+    "choices": ["var", "let", "const", "both B and C"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How do you write a single-line comment in JavaScript?",
+    "choices": ["/* comment */", "# comment", "<!-- comment -->", "// comment"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What will '5' + 3 evaluate to in JavaScript?",
+    "choices": ["8", "'8'", "'53'", "Error"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which of the following is NOT a primitive data type in JavaScript?",
+    "choices": ["string", "number", "object", "boolean"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the result of typeof null in JavaScript?",
+    "choices": ["null", "object", "undefined", "boolean"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which method adds one or more elements to the end of an array?",
+    "choices": ["pop()", "shift()", "push()", "unshift()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you create a new object in JavaScript?",
+    "choices": ["var obj = {}", "var obj = []", "var obj = new Object()", "both A and C"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which symbol is used for strict equality comparison?",
+    "choices": ["==", "===", "=", "!="],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of these is a JavaScript framework?",
+    "choices": ["React", "Laravel", "Django", "Rails"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What will the following code output?\nconsole.log(0.1 + 0.2 == 0.3);",
+    "choices": ["true", "false", "undefined", "Error"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare a function in JavaScript?",
+    "choices": ["function myFunc() {}", "def myFunc() {}", "func myFunc() {}", "function:myFunc() {}"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these loops is NOT valid in JavaScript?",
+    "choices": ["for", "while", "do...while", "foreach"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is a closure in JavaScript?",
+    "choices": ["A function bundled with its lexical environment", "A function that runs immediately", "An anonymous function", "A loop that never ends"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method removes the last element from an array?",
+    "choices": ["shift()", "pop()", "unshift()", "slice()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the output of typeof undefined?",
+    "choices": ["null", "object", "boolean", "undefined"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What will be the output?\nconsole.log([] == false);",
+    "choices": ["false", "Error", "undefined", "true"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which of the following is a valid way to create an array?",
+    "choices": ["var arr = []", "var arr = new Array()", "var arr = Array()", "All of the above"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is the use of the 'this' keyword in JavaScript?",
+    "choices": ["Refers to current object", "Refers to global object", "Refers to function itself", "None of the above"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What will the code output?\nconsole.log(typeof NaN);",
+    "choices": ["NaN", "number", "object", "undefined"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the output?\nconsole.log('5' - 3);",
+    "choices": ["53", "NaN", "2", "Error"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How can you create a constant variable in JavaScript?",
+    "choices": ["let x = 10;", "var x = 10;", "const x = 10;", "constant x = 10;"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which keyword is used to create a promise in JavaScript?",
+    "choices": ["async", "new Promise()", "await", "defer"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What does the 'async' keyword do?",
+    "choices": ["Makes a function return a Promise", "Makes a function synchronous", "Delays function execution", "Converts function to callback"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What will be the output of:\nconsole.log(typeof function(){});",
+    "choices": ["object", "undefined", "function", "error"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which method is used to combine two or more arrays?",
+    "choices": ["append()", "concat()", "combine()", "merge()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the difference between let and var?",
+    "choices": ["var is function-scoped; let is block-scoped", "var is block-scoped; let is function-scoped", "Both are the same", "None of the above"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which operator is used to assign a value to a variable?",
+    "choices": ["==", "=", "===", ":="],
+    "correct_answer": 1
+  },
+  {
+    "question": "What does NaN stand for?",
+    "choices": ["No answer", "Null and None", "Name a Number", "Not a Number"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which function converts a JavaScript object to a JSON string?",
+    "choices": ["JSON.parse()", "JSON.objectify()", "JSON.stringify()", "JSON.toString()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you check if a variable is an array?",
+    "choices": ["Array.isArray()", "typeof variable == 'array'", "variable.isArray()", "variable instanceof Array"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which keyword is used to stop a loop?",
+    "choices": ["exit", "break", "stop", "return"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will be the output of:\nconsole.log(2 + '2');",
+    "choices": ["4", "'22'", "Error", "NaN"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the output of:\nconsole.log(typeof null);",
+    "choices": ["null", "undefined", "object", "boolean"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which method removes the first element from an array?",
+    "choices": ["pop()", "shift()", "unshift()", "splice()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will this code output?\nconsole.log(!!0);",
+    "choices": ["true", "false", "0", "undefined"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which of the following is the correct syntax for a ternary operator?",
+    "choices": ["condition ? expr1 : expr2", "if (condition) { expr1 } else { expr2 }", "condition ? expr1, expr2", "if condition then expr1 else expr2"],
+    "correct_answer": 0
+  },
+  {
+    "question": "How do you write an arrow function?",
+    "choices": ["function() => {}", "() => function()", "func => ()", "() => {}"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which of the following is NOT a JavaScript data type?",
+    "choices": ["String", "Number", "Boolean", "Character"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is the output of:\nconsole.log(typeof Symbol());",
+    "choices": ["object", "symbol", "string", "undefined"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which method can be used to sort the elements of an array?",
+    "choices": ["sort()", "order()", "arrange()", "sequence()"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What is the result of 'hello'.charAt(1)?",
+    "choices": ["h", "e", "l", "o"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which event occurs when a user clicks on an HTML element?",
+    "choices": ["onmouseover", "onchange", "onclick", "onkeypress"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What does JSON stand for?",
+    "choices": ["Java Standard Output Network", "JavaScript Object Notation", "JavaScript Online Notation", "JavaScript Object Node"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare a JavaScript variable?",
+    "choices": ["variable x;", "var x;", "v x;", "dim x;"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which method is used to join all elements of an array into a string?",
+    "choices": ["concat()", "merge()", "join()", "combine()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the purpose of the 'defer' attribute in a script tag?",
+    "choices": ["Delays script execution until HTML parsing is complete", "Executes script immediately", "Preloads the script", "Prevents the script from executing"],
+    "correct_answer": 0
+  }
+  , 
+  {
+    "question": "What is the output of console.log(typeof [])?",
+    "choices": ["object", "array", "undefined", "function"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which keyword is used to declare a constant variable?",
+    "choices": ["let", "var", "constant", "const"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What does '===' operator do?",
+    "choices": ["Checks value equality", "Checks value and type equality", "Assigns a value", "Checks reference equality"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you write a comment that spans multiple lines?",
+    "choices": ["/* comment */", "// comment", "<!-- comment -->", "# comment"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which array method creates a new array with all elements that pass a test?",
+    "choices": ["map()", "filter()", "reduce()", "forEach()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you declare an asynchronous function?",
+    "choices": ["async function myFunc() {}", "function async myFunc() {}", "async: function myFunc() {}", "function myFunc() async {}"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method calls a function for each element in the array?",
+    "choices": ["map()", "forEach()", "filter()", "reduce()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will the code 'console.log([] == ![]);' output?",
+    "choices": ["false", "true", "undefined", "error"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the difference between null and undefined?",
+    "choices": ["null means no value; undefined means variable not assigned", "null is type; undefined is object", "Both are same", "null means variable not assigned; undefined means no value"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these is NOT a valid JavaScript variable name?",
+    "choices": ["myVar", "1stVar", "_myVar", "$myVar"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How do you stop an interval timer set with setInterval()?",
+    "choices": ["clearInterval()", "stopInterval()", "clearTimeout()", "stopTimer()"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What will be the output of 'typeof NaN'?",
+    "choices": ["number", "NaN", "undefined", "object"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which of these methods merges two or more arrays?",
+    "choices": ["merge()", "concat()", "append()", "combine()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What does JSON.stringify() do?",
+    "choices": ["Converts JS object to JSON string", "Parses JSON string to object", "Converts string to number", "Converts array to string"],
+    "correct_answer": 0
+  },
+  {
+    "question": "How can you add a new element at the start of an array?",
+    "choices": ["push()", "pop()", "unshift()", "shift()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which of the following is true about JavaScript functions?",
+    "choices": ["Functions are first-class objects", "Functions cannot be assigned to variables", "Functions cannot be passed as arguments", "Functions must have a name"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which symbol is used for the logical AND operator?",
+    "choices": ["||", "==", "&&", "!"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the output of console.log('5' - 2)?",
+    "choices": ["52", "NaN", "3", "Error"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you declare a class in JavaScript?",
+    "choices": ["class MyClass {}", "function MyClass {}", "class: MyClass {}", "def MyClass {}"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method is used to remove the first element of an array?",
+    "choices": ["pop()", "slice()", "shift()", "splice()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What will be the output of typeof null?",
+    "choices": ["null", "object", "undefined", "boolean"],
+    "correct_answer": 1
+  },
+  {
+    "question": "How can you create a new Promise?",
+    "choices": ["new Promise()", "Promise.create()", "create Promise()", "Promise.new()"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method is used to find the index of an element in an array?",
+    "choices": ["indexOf()", "findIndex()", "getIndex()", "search()"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What does the spread operator '...' do?",
+    "choices": ["Expands an iterable into individual elements", "Merges objects", "Copies objects", "Checks types"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which keyword allows you to create a block-scoped variable?",
+    "choices": ["let", "var", "const", "both A and C"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which function converts a JSON string into a JavaScript object?",
+    "choices": ["JSON.stringify()", "JSON.parse()", "JSON.convert()", "JSON.objectify()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the output of console.log(typeof function() {})?",
+    "choices": ["function", "object", "undefined", "error"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which event triggers when a user clicks an HTML element?",
+    "choices": ["onhover", "onchange", "onclick", "onkeypress"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What will '0 == false' evaluate to?",
+    "choices": ["true", "false", "undefined", "error"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What is the output of console.log(!!'')?",
+    "choices": ["true", "''", "undefined", "false"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How do you check if a variable is NaN?",
+    "choices": ["typeof NaN", "isNaN()", "NaN()", "isNotANumber()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What does the 'delete' operator do?",
+    "choices": ["Removes a property from an object", "Deletes a variable", "Deletes a function", "Deletes an array element permanently"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method reverses the order of elements in an array?",
+    "choices": ["sort()", "shuffle()", "invert()", "reverse()"],
+    "correct_answer": 3
+  },
+  {
+    "question": "How do you convert a string to a number in JavaScript?",
+    "choices": ["Number()", "parseInt()", "parseFloat()", "All of the above"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which of the following is true about JavaScript?",
+    "choices": ["It is a statically typed language", "It is a dynamically typed language", "It requires variable types to be declared", "It is not case sensitive"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What will the expression 'typeof NaN' return?",
+    "choices": ["NaN", "undefined", "number", "object"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which symbol is used to denote template literals?",
+    "choices": ["Single quotes (')", "Double quotes (\")", "Backticks (`)", "Parentheses ()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "How do you write an arrow function?",
+    "choices": ["function() {}", "() => {}", "func => {}", "=> function() {}"],
+    "correct_answer": 1
+  },
+  {
+    "question": "What is the default value of uninitialized variables?",
+    "choices": ["null", "undefined", "0", "false"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which keyword is used to export a module?",
+    "choices": ["module", "import", "require", "export"],
+    "correct_answer": 3
+  },
+  {
+    "question": "What is event bubbling?",
+    "choices": ["Event propagates from child to parent", "Event propagates from parent to child", "Event stops immediately", "Event triggers once"],
+    "correct_answer": 0
+  },
+  {
+    "question": "What is the output of: console.log(1 + '1' - 1);",
+    "choices": ["11", "1", "10", "Error"],
+    "correct_answer": 2
+  },
+  {
+    "question": "What is the purpose of the 'finally' block?",
+    "choices": ["Executes code regardless of try/catch result", "Executes only if an exception occurs", "Executes only if no exception occurs", "Terminates program execution"],
+    "correct_answer": 0
+  },
+  {
+    "question": "Which method is used to stop event propagation?",
+    "choices": ["preventDefault()", "stopImmediatePropagation()", "cancelBubble()", "stopPropagation()"],
+    "correct_answer": 3
+  },
+  {
+    "question": "Which method converts an object into an array of key-value pairs?",
+    "choices": ["Object.keys()", "Object.entries()","Object.values()", "Object.pairs()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which function is used to schedule code execution after a delay?",
+    "choices": ["setInterval()", "setDelay()", "setTimeout()", "delay()"],
+    "correct_answer": 2
+  },
+  {
+    "question": "Which of the following can be used to parse an integer from a string?",
+    "choices": ["Number()", "parseInt()", "parseFloat()", "toString()"],
+    "correct_answer": 1
+  },
+  {
+    "question": "Which operator is used to spread elements of an array?",
+    "choices": ["&", "*", "...", "$"],
+    "correct_answer": 2
+  }
+]
+
+
