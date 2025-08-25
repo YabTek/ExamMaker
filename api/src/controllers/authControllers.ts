@@ -12,9 +12,11 @@ export const register = async (req: Request, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const existingUser = await userRepo.findByEmail(email);
-    if (existingUser) {
-     throw new BadRequestError("User already exists");
+    const existingUserByEmail = await userRepo.findByEmail(email);
+    const existingUserByUsername = await userRepo.findByUsername(username);
+    
+    if (existingUserByEmail || existingUserByUsername) {
+     throw new BadRequestError("User exists with this email or username");
     }
 
     const salt = await bcrypt.genSalt(10);
