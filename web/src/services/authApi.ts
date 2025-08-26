@@ -1,21 +1,5 @@
-// import api from "./common";
-
-// export const login = (email: String, password: String) => {
-//   return api.post("/auth/login", { email, password });
-// };
-
-// export const register = (data: ) => {
-//   return api.post("/auth/register", data);
-// };
-
-// export const logout = () => {
-//   return api.delete("/auth/logout");
-// };
-
-
 import api from "./common";
 
-// Types for requests and responses
 export interface LoginRequest {
   email: string;
   password: string;

@@ -1,6 +1,5 @@
 import api from "./common";
 
-// Match your backend Quiz model
 export interface Question {
   question: string;
   choices: string[];
@@ -9,7 +8,7 @@ export interface Question {
 
 export interface CreateQuizRequest {
   language: string;
-  mode: "solo" | "multiplayer";
+  mode: "solo" | "group";
 }
 
 export interface CreateQuizResponse {
@@ -18,6 +17,5 @@ export interface CreateQuizResponse {
 }
 
 export const quizApi = {
-  createQuiz: (data: CreateQuizRequest) =>
-    api.post<CreateQuizResponse>("/createQuiz", data),
+  createQuiz: (data: CreateQuizRequest) => api.post<CreateQuizResponse>("/createQuiz", data),
 };
