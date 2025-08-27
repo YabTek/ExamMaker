@@ -17,7 +17,7 @@ const schema = new Schema<Quiz>(
   {
     mode: {
       type: String,
-      enum: ["solo", "multiplayer"],
+      enum: ["solo", "group"],
       required: true,
     },
     questions: [
