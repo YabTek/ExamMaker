@@ -11,6 +11,10 @@ export interface Quiz {
     choices: string[];
     correct_answer: number; 
   }[];
+  players: { 
+    id: string; 
+    username: string 
+  }[];
 }
 
 const schema = new Schema<Quiz>(
@@ -27,6 +31,12 @@ const schema = new Schema<Quiz>(
         correct_answer: { type: Number, required: true },
       },
     ],
+    players: [
+      {
+        id: { type: String, required: true },
+        username: { type: String, required: true },
+      }
+    ]
   },
   {
     timestamps: true,
