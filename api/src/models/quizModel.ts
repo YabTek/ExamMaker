@@ -13,7 +13,8 @@ export interface Quiz {
   }[];
   players: { 
     id: string; 
-    username: string 
+    username: string;
+    isHost: boolean;
   }[];
 }
 
@@ -34,7 +35,8 @@ const schema = new Schema<Quiz>(
     players: [
       {
         id: { type: String, required: true },
-        username: { type: String, required: true },
+        username: { type: String, unique: true, required: true },
+        isHost: {type: Boolean, required: false, default: false}
       }
     ]
   },
