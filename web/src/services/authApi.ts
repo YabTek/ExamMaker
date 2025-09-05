@@ -12,8 +12,8 @@ export interface User {
 }
 
 export interface LoginResponse {
-  token: string;
-  user: User;
+    token: string;
+    user: User;
 }
 
 export interface RegisterRequest {
