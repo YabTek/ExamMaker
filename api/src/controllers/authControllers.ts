@@ -48,7 +48,7 @@ export const login = async (req: Request, res) => {
         throw new BadRequestError("Invalid email or password");
       }
   
-      const token = generateToken({ userId: user._id });
+      const token = generateToken({ userId: user._id, username: user.username });
   
       new SuccessResponse("Login successful", 
         { token, user: { id: user._id, username: user.username, email: user.email } }).send(res);
