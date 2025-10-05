@@ -5,7 +5,7 @@ export const COLLECTION_NAME = "quizzes";
 
 export interface Quiz {
   _id: Types.ObjectId;
-  mode: "solo" | "multiplayer";
+  mode: "solo" | "group";
   questions: {
     question: string;
     choices: string[];
@@ -15,6 +15,7 @@ export interface Quiz {
     id: string; 
     username: string;
     isHost: boolean;
+    score?: number;
   }[];
 }
 
@@ -36,7 +37,8 @@ const schema = new Schema<Quiz>(
       {
         id: { type: String, required: true },
         username: { type: String, unique: true, required: true },
-        isHost: {type: Boolean, required: false, default: false}
+        isHost: {type: Boolean, required: false, default: false},
+        score: {type: Number, required: false, default: 0},
       }
     ]
   },

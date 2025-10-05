@@ -15,7 +15,7 @@ export class ParentResponse {
     return res.status(this.statusCode).json({
       status: "success",
       message: this.message,
-      data: this.data,
+      ...this.data,
     });
   }
 }
