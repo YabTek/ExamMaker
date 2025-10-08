@@ -12,10 +12,11 @@ export interface Quiz {
     correct_answer: number; 
   }[];
   players: { 
-    id: string; 
+    _id: Types.ObjectId; 
     username: string;
     isHost: boolean;
     score?: number;
+    hasJoined: boolean;
   }[];
 }
 
@@ -35,10 +36,10 @@ const schema = new Schema<Quiz>(
     ],
     players: [
       {
-        id: { type: String, required: true },
-        username: { type: String, unique: true, required: true },
+        username: { type: String, required: true },
         isHost: {type: Boolean, required: false, default: false},
         score: {type: Number, required: false, default: 0},
+        hasJoined: {type: Boolean, required: false, default: false}
       }
     ]
   },
