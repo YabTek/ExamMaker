@@ -9,6 +9,10 @@ async function findByEmail(email: string): Promise<User | null> {
   return UserModel.findOne({ email }).exec();
 }
 
+async function findByUsername(username: string): Promise<User | null> {
+  return UserModel.findOne({username}).exec();
+}
+
 async function findById(id: Types.ObjectId): Promise<User | null> {
   return UserModel.findOne({ _id: id }).lean().exec();
 }
@@ -20,6 +24,7 @@ async function updateInfo(user: User): Promise<User | null> {
 export default {
   create,
   findByEmail,
+  findByUsername,
   findById,
   updateInfo,
 };
