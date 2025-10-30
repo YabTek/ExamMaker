@@ -7,6 +7,7 @@ import { Request } from "express";
 import { errorResponse } from "../core/errorResponse";
 import { JwtPayload } from "jsonwebtoken";
 import { QuizModel } from "../models/quizModel";
+import { Types } from "mongoose";
 
 interface AuthRequest extends Request {
   user?: string | JwtPayload;
@@ -39,7 +40,7 @@ export const createQuiz = async (req: AuthRequest, res) => {
     }
 
     const questions = await loadQuestions(language.toLowerCase(), 15);
-    const quiz = await quizRepo.createQuiz(mode.toLowerCase(), questions, { id: user.userId, username: user.username, isHost: true });
+    const quiz = await quizRepo.createQuiz(mode.toLowerCase(), questions, { _id: user.userId, username: user.username, isHost: true });
 
     new CreatedResponse("Quiz created successfully", {quizId: quiz._id,questions: quiz.questions}).send(res);
   } catch (error) {
@@ -54,12 +55,16 @@ export const joinQuiz = async (req: AuthRequest, res) => {
 
     let quiz = await quizRepo.getQuizById(id);
     if (!quiz) throw new NotFoundError("Quiz not found");
+    let updatedQuiz = quiz;
 
-    const exists = quiz.players.some(p => p.id === user.userId);
+    const exists = quiz.players.find(p => p.username === user.username);
     if (!exists) {
-      await quizRepo.addPlayer(id, { id: user.userId, username: user.username })
-    }
-    new CreatedResponse("Player joined", {players: quiz.players, currentUser: { id: user.userId, username: user.username }}).send(res);
+      updatedQuiz = await quizRepo.addPlayer(id, { _id: user.userId, username: user.username, hasJoined: true })
+    } else if (exists.isHost && !exists.hasJoined) {
+      updatedQuiz = await quizRepo.updateStatus(id, user.userId);
+    } 
+   
+    new CreatedResponse("Player joined", {players: updatedQuiz.players, currentUser: { id: user.userId, username: user.username }}).send(res);
   } catch (error) {
     errorResponse(error, res);
   }
