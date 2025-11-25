@@ -20,16 +20,17 @@ export default function Home() {
         </p>
         
         <div className="flex space-x-4 mt-4">
-          <button className="bg-pink-500 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-md hover:bg-pink-600 hover:cursor-pointer">
-            <Link href="register">            
-            SIGNUP
-            </Link>
-          </button>
-          <button className="bg-purple-400 text-white px-8 py-2 rounded-full text-lg font-semibold shadow-md hover:bg-purple-500 hover:cursor-pointer">
-            <Link href="login">            
-              LOGIN
-            </Link>
-          </button>
+          <Link href="register">            
+            <button className="bg-pink-500 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-md hover:bg-pink-600 hover:cursor-pointer">
+              SIGNUP
+            </button>
+          </Link>
+          <Link href="login">            
+            <button className="bg-purple-400 text-white px-8 py-2 rounded-full text-lg font-semibold shadow-md hover:bg-purple-500 hover:cursor-pointer">
+                LOGIN
+            </button>
+          </Link>
+
         </div>
       </div>
     </div>
