@@ -4,6 +4,7 @@ import { Frijole } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { quizApi } from "@/services/quizApi";
 
 const frijole = Frijole({ weight: "400", subsets: ["latin"] });
 
@@ -13,6 +14,14 @@ export default function ChooseLanguage() {
     const [error, setError]  = useState<string | null>(null);
 
     const participationType = localStorage.getItem("participationType");
+
+    const handleSoloClick = async () => {
+      if (!participationType || !selected || (participationType !== "solo")) {
+          return;
+        }
+        const res = await quizApi.createQuiz({mode: participationType, language: selected});
+        router.push(`/generateQuestions/${res.data.quizId}`);
+    }
 
     const handleClick = () => {
         if (selected){
@@ -63,12 +72,10 @@ export default function ChooseLanguage() {
 
         <div className="flex justify-center">
           {participationType === "solo" ? (
-            <Link href="generateQuestions">
-              <button onClick={handleClick}
+              <button onClick={handleSoloClick}
                 className={`${frijole.className} bg-pink-500 text-white text-2xl font-bold rounded-2xl shadow-2xl px-12 py-4 hover:bg-pink-600 hover:cursor-pointer opacity-90`}>
                 Start Quiz
               </button>
-          </Link>
           ) : (
              <Link href="addPeople">
               <button onClick={handleClick}
