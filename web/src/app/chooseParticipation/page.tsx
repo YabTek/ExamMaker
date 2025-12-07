@@ -20,7 +20,7 @@ export default function Participate() {
 
       <div className="absolute flex flex-col text-center">
         <h1 className={`${frijole.className} text-2xl sm:text-4xl lg:text-5xl font-bold text-blue-700 mt-[-6rem] mb-6`}>
-          HOW DO YOU WANT TO<br /> PARTICIPATE IN THIS QUIZ?
+         WELCOME👋<br/> HOW DO YOU WANT TO<br /> PARTICIPATE IN THIS QUIZ?
         </h1>
 
         <div className="space-x-4 justify-center">
