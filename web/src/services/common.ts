@@ -1,10 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Attach token to every request
 apiClient.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
