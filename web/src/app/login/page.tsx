@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { authApi, LoginRequest } from "@/services/authApi"; 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Login() {
   const [form, setForm] = useState<LoginRequest>({
@@ -13,7 +13,9 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect"); 
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({...form, [e.target.name]: e.target.value});
   }
@@ -26,7 +28,7 @@ export default function Login() {
     try {
       const res = await authApi.login(form);
       localStorage.setItem("token", res.data.token);
-      router.push("/chooseParticipation"); 
+      router.push(redirect || "/chooseParticipation"); 
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     } finally {
