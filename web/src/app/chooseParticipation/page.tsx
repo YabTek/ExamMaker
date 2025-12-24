@@ -9,7 +9,7 @@ export default function Participate() {
   const router = useRouter();
 
   const handleSelect = (type: string) => {
-    localStorage.setItem("participationType", type);
+    // localStorage.setItem("participationType", type);
     router.push("/chooseLanguage");
   };
 
