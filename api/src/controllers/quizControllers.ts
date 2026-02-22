@@ -59,10 +59,11 @@ export const joinQuiz = async (req: AuthRequest, res) => {
 
     const exists = quiz.players.find(p => p.username === user.username);
     if (!exists) {
-      updatedQuiz = await quizRepo.addPlayer(id, { _id: user.userId, username: user.username, hasJoined: true })
+      updatedQuiz = await quizRepo.addPlayer(id, { _id: user.userId, username: user.username, hasJoined: true });
+      if (!updatedQuiz) updatedQuiz = await quizRepo.getQuizById(id);
     } else if (exists.isHost && !exists.hasJoined) {
       updatedQuiz = await quizRepo.updateStatus(id, user.userId);
-    } 
+    }
    
     new CreatedResponse("Player joined", {players: updatedQuiz.players, currentUser: { id: user.userId, username: user.username }}).send(res);
   } catch (error) {
@@ -80,6 +81,49 @@ export const fetchQuiz = async (req: Request, res) => {
     errorResponse(error, res);
   }
 }
+
+export const startQuiz = async (req: Request, res) => {
+  try {
+    const { id } = req.params;
+    const quiz = await quizRepo.getQuizById(id);
+    if (!quiz) throw new NotFoundError("Quiz not found");
+
+    const startedAt = (quiz as any).startedAt;
+    if (startedAt) {
+      new SuccessResponse("Quiz already started", { startedAt }).send(res);
+      return;
+    }
+
+    const now = new Date();
+    await QuizModel.findByIdAndUpdate(id, { startedAt: now, duration: 50 });
+    new SuccessResponse("Quiz started", { startedAt: now }).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
+
+export const getTimeLeft = async (req: Request, res) => {
+  try {
+    const { id } = req.params;
+    const quiz = await quizRepo.getQuizById(id);
+    if (!quiz) throw new NotFoundError("Quiz not found");
+
+    const startedAt = (quiz as any).startedAt;
+    const duration = (quiz as any).duration ?? 50;
+
+    if (!startedAt) {
+      new SuccessResponse("Quiz not started", { timeLeft: duration, started: false }).send(res);
+      return;
+    }
+
+    const elapsed = (Date.now() - new Date(startedAt).getTime()) / 1000;
+    const timeLeft = Math.max(0, Math.floor(duration - elapsed));
+
+    new SuccessResponse("Time retrieved", { timeLeft, startedAt, duration, started: true }).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
 
 export const updateScore = async (req: AuthRequest, res) => {
   try {
