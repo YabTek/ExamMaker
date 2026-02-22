@@ -6,6 +6,8 @@ export const COLLECTION_NAME = "quizzes";
 export interface Quiz {
   _id: Types.ObjectId;
   mode: "solo" | "group";
+  startedAt?: Date;
+  duration?: number; 
   questions: {
     question: string;
     choices: string[];
@@ -27,6 +29,8 @@ const schema = new Schema<Quiz>(
       enum: ["solo", "group"],
       required: true,
     },
+    startedAt: { type: Date, required: false },
+    duration: { type: Number, required: false, default: 50 },
     questions: [
       {
         question: { type: String, required: true },
