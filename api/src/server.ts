@@ -7,6 +7,7 @@ import * as quizRoutes from "./routes/index"
 import { AppError } from "./core/errors";
 import http from "http";
 import { Server } from "socket.io";
+import { QuizModel } from "./models/quizModel";
 
 dotenv.config();
 const app = express();
@@ -19,17 +20,39 @@ const io = new Server(server, {
   }
 });
 
-io.on("connection", (socket) => { 
-  socket.on("player_joined", (updatedPlayers) => {
-    socket.broadcast.emit("player_joined", updatedPlayers);
+const QUIZ_DURATION_SECONDS = 50;
+
+io.on("connection", (socket) => {
+  socket.on("join_room", (quizId: string) => {
+    socket.join(quizId);
   });
-  socket.on("start_quiz", () =>{
-    io.emit("quiz_started");
+
+  socket.on("sync_players", async (quizId: string) => {
+    try {
+      const quiz = await QuizModel.findById(quizId).lean();
+      if (!quiz) return;
+      const players = quiz.players.filter((p: { hasJoined?: boolean }) => p.hasJoined);
+      io.to(quizId).emit("player_joined", players);
+    } catch {
+    }
   });
+
+  socket.on("start_quiz", async (quizId: string) => {
+    try {
+      await QuizModel.findByIdAndUpdate(quizId, {
+        startedAt: new Date(),
+        duration: QUIZ_DURATION_SECONDS,
+      });
+      io.to(quizId).emit("quiz_started");
+    } catch {
+      // ignore
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("disconnected", socket.id);
   });
-})
+});
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
