@@ -20,8 +20,8 @@ async function getAllQuizzes(){
 };
 
 async function addPlayer(quizId, player) {
-  return await QuizModel.findByIdAndUpdate(
-    quizId,
+  return await QuizModel.findOneAndUpdate(
+    { _id: quizId, "players._id": { $ne: player._id } },
     { $push: { players: player } },
     { new: true }
   );

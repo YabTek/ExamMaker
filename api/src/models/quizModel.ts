@@ -8,6 +8,7 @@ export interface Quiz {
   mode: "solo" | "group";
   startedAt?: Date;
   duration?: number; 
+  title: string;
   questions: {
     question: string;
     choices: string[];
@@ -31,6 +32,7 @@ const schema = new Schema<Quiz>(
     },
     startedAt: { type: Date, required: false },
     duration: { type: Number, required: false, default: 50 },
+    title: { type: String, required: false, default: "quiz" },
     questions: [
       {
         question: { type: String, required: true },
