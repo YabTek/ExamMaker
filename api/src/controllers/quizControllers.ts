@@ -3,12 +3,13 @@ import path from "path";
 import { BadRequestError, NotFoundError } from "../core/errors";
 import { CreatedResponse, SuccessResponse } from "../core/successResponse";
 import quizRepo from "../repositories/quizRepository";
+import quizAttemptRepo from "../repositories/quizAttemptRepository";
 import { Request } from "express";
 import { errorResponse } from "../core/errorResponse";
 import { JwtPayload } from "jsonwebtoken";
 import { QuizModel } from "../models/quizModel";
 import { Types } from "mongoose";
-
+    ``
 interface AuthRequest extends Request {
   user?: string | JwtPayload;
 }
@@ -142,3 +143,95 @@ export const updateScore = async (req: AuthRequest, res) => {
 };
 
 
+export const submitQuizAttempt = async (req: AuthRequest, res) => {
+  try {
+    const user = req.user;
+    const { quizId, answers, timeSpent } = req.body;
+
+    const quiz = await quizRepo.getQuizById(quizId);
+    if (!quiz) throw new NotFoundError("Quiz not found");
+
+    let correctCount = 0;
+    const detailedAnswers = answers.map((ans, idx) => {
+      const question = quiz.questions[ans.questionIdx];
+      const isCorrect = question.correct_answer === ans.answerIdx;
+      if (isCorrect) correctCount++;
+      
+      return {
+        questionId: ans.questionIdx.toString(),
+        userAnswer: ans.answerIdx,
+        correctAnswer: question.correct_answer,
+        isCorrect
+      };
+    });
+
+    const totalQuestions = quiz.questions.length;
+    const percentageScore = (correctCount / totalQuestions) * 100;
+
+    const attempt = await quizAttemptRepo.createAttempt({
+      userId: user.userId,
+      quizId: quiz._id,
+      score: correctCount,
+      totalQuestions,
+      percentageScore,
+      timeSpent,
+      answers: detailedAnswers,
+      quizTitle: quiz.title || `Quiz ${quizId}`
+    });
+
+    await quizRepo.updatePlayerScore(quizId, user.userId, correctCount);
+
+    new SuccessResponse("Quiz submitted", {
+      score: correctCount,
+      total: totalQuestions,
+      percentage: percentageScore,
+      attemptId: attempt._id
+    }).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
+
+export const getUserAnalytics = async (req: AuthRequest, res) => {
+  try {
+    const user = req.user;
+    const stats = await quizAttemptRepo.getUserStats(user.userId);
+    new SuccessResponse("Analytics retrieved", stats).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
+
+export const getQuizAttemptDetail = async (req: AuthRequest, res) => {
+  try {
+    const user = req.user;
+    const { attemptId } = req.params;
+    
+    const attempt = await quizAttemptRepo.getAttemptDetails(attemptId);
+    
+    if (!attempt) {
+      throw new NotFoundError("Quiz attempt not found");
+    }
+    
+    // Verify user owns this attempt
+    if (attempt.userId._id.toString() !== user.userId) {
+      throw new BadRequestError("Unauthorized access");
+    }
+    
+    new SuccessResponse("Attempt details retrieved", attempt).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
+
+export const getUserHistory = async (req: AuthRequest, res) => {
+  try {
+    const user = req.user;
+    const limit = parseInt(req.query.limit as string) || 50;
+    
+    const history = await quizAttemptRepo.getUserQuizHistory(user.userId, limit);
+    new SuccessResponse("History retrieved", { data: history }).send(res);
+  } catch (error) {
+    errorResponse(error, res);
+  }
+};
