@@ -29,13 +29,13 @@ async function getUserStats(userId: Types.ObjectId) {
     .reverse()
     .map(a => ({
       date: a.completedAt,
-      score: a.percentageScore
+      score: Math.round(a.percentageScore * 100) / 100
     }));
     
     return {
         totalAttempts: attempts.length,
-        averageScore: totalScore / attempts.length,
-        bestScore,
+        averageScore: Math.round((totalScore / attempts.length) * 100) / 100,
+        bestScore: Math.round(bestScore * 100) / 100,
         totalTimeSpent: totalTime,
         recentTrend
     };
