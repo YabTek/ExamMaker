@@ -26,6 +26,7 @@ const schema = new Schema<User>({
     password: {
         type: Schema.Types.String,
         required: true,
+        minLength: [6, "Password must be at least 6 characters long"]
     }
     },
     {

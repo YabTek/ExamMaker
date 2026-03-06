@@ -57,60 +57,49 @@ export const login = async (req: Request, res) => {
     }
   };
   
-  
-  export const logout = async (req: Request, res) => {
-    try {
-      res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "strict" });
-      res.status(200).json({ message: "Logged out successfully" });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
-  
-  
-  export const requestPasswordReset = async (req: Request, res) => {
-    try {
-      const { email } = req.body;
-  
-      const user = await userRepo.findByEmail(email);
-      if (!user) {
-        throw new NotFoundError("User not found");
-      }
-  
-      await sendEmail(user, email);
-      
-      new SuccessResponse("Password reset email sent", {}).send(res);
-    } catch (error) {
-      errorResponse(error, res);
-    }
-  };
+export const requestPasswordReset = async (req: Request, res) => {
+  try {
+    const { email } = req.body;
 
-  export const resetPassword = async (req: Request, res) => {
-    try {
-      const { newPassword, email } = req.body
-      let user = null
-
-      if (email) {
-        user = await userRepo.findByEmail(email)
-      } else
-         throw new BadRequestError("Please provide a valid email");
-      if (user) {
-        const saltRounds = 10
-        const passwordHash = await bcrypt.hash(newPassword, saltRounds)
-        const isSame = await bcrypt.compare(newPassword, user.password)
-        
-        if (isSame)
-            throw new BadRequestError("You used this password before, please update it");
-
-        user.password = passwordHash
-        await userRepo.updateInfo(user)
-        return res.status(200).json({ message: "Password updated" });
-      } else {
-        throw new NotFoundError("User not found");
-
-      }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    const user = await userRepo.findByEmail(email);
+    if (!user) {
+      throw new NotFoundError("User not found");
     }
 
+    await sendEmail(user, email);
+    
+    new SuccessResponse("Password reset email sent", {}).send(res);
+  } catch (error) {
+    errorResponse(error, res);
   }
+};
+
+export const resetPassword = async (req: Request, res) => {
+  try {
+    const { newPassword, email } = req.body
+    let user = null
+
+    if (email) {
+      user = await userRepo.findByEmail(email)
+    } else
+        throw new BadRequestError("Please provide a valid email");
+    if (user) {
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(newPassword, saltRounds)
+      const isSame = await bcrypt.compare(newPassword, user.password)
+      
+      if (isSame)
+          throw new BadRequestError("You used this password before, please update it");
+
+      user.password = passwordHash
+      await userRepo.updateInfo(user)
+      return res.status(200).json({ message: "Password updated" });
+    } else {
+      throw new NotFoundError("User not found");
+
+    }
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+
+}
