@@ -56,6 +56,20 @@ export const joinQuiz = async (req: AuthRequest, res) => {
 
     let quiz = await quizRepo.getQuizById(id);
     if (!quiz) throw new NotFoundError("Quiz not found");
+    
+    if (quiz.isCompleted) {
+      throw new BadRequestError("This quiz has already been completed and is no longer available");
+    }
+    
+    const hasStarted = !!quiz.startedAt;
+    
+    if (hasStarted && quiz.mode === 'solo') {
+      const isOriginalPlayer = quiz.players.some(p => p._id.toString() === user.userId);
+      if (!isOriginalPlayer) {
+        throw new BadRequestError("This solo quiz has already started and cannot accept new participants");
+      }
+    }
+    
     let updatedQuiz = quiz;
 
     const exists = quiz.players.find(p => p.username === user.username);
@@ -66,7 +80,12 @@ export const joinQuiz = async (req: AuthRequest, res) => {
       updatedQuiz = await quizRepo.updateStatus(id, user.userId);
     }
    
-    new CreatedResponse("Player joined", {players: updatedQuiz.players, currentUser: { id: user.userId, username: user.username }}).send(res);
+    new CreatedResponse("Player joined", {
+      players: updatedQuiz.players, 
+      currentUser: { id: user.userId, username: user.username },
+      hasStarted,
+      startedAt: quiz.startedAt
+    }).send(res);
   } catch (error) {
     errorResponse(error, res);
   }
@@ -75,8 +94,15 @@ export const joinQuiz = async (req: AuthRequest, res) => {
 export const fetchQuiz = async (req: Request, res) => {
   try{
     const { id } = req.params;
+    const { includeCompleted } = req.query; 
+    
     let quiz = await quizRepo.getQuizById(id);
     if (!quiz) throw new NotFoundError("Quiz not found");
+    
+    if (quiz.isCompleted && includeCompleted !== 'true') {
+      throw new BadRequestError("This quiz has already been completed and is no longer available");
+    }
+    
     new CreatedResponse("Quiz retrieved", quiz).send(res);
   } catch (error) {
     errorResponse(error, res);
@@ -150,6 +176,10 @@ export const submitQuizAttempt = async (req: AuthRequest, res) => {
 
     const quiz = await quizRepo.getQuizById(quizId);
     if (!quiz) throw new NotFoundError("Quiz not found");
+    
+    if (quiz.isCompleted) {
+      throw new BadRequestError("This quiz has already been completed and is no longer available");
+    }
 
     let correctCount = 0;
     const detailedAnswers = answers.map((ans, idx) => {
@@ -180,6 +210,10 @@ export const submitQuizAttempt = async (req: AuthRequest, res) => {
     });
 
     await quizRepo.updatePlayerScore(quizId, user.userId, correctCount);
+    
+    if (quiz.mode === 'solo') {
+      await quizRepo.markQuizCompleted(quizId);
+    }
 
     new SuccessResponse("Quiz submitted", {
       score: correctCount,
