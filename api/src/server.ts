@@ -45,7 +45,26 @@ io.on("connection", (socket) => {
       });
       io.to(quizId).emit("quiz_started");
     } catch {
-      // ignore
+    }
+  });
+
+  socket.on("player_finished", async (quizId: string) => {
+    try {
+      const quiz = await QuizModel.findById(quizId).lean();
+      if (!quiz || quiz.isCompleted) return;
+      
+      const allPlayersCompleted = quiz.players.every((player: any) => 
+        player.score !== undefined && player.score !== null
+      );
+      
+      if (allPlayersCompleted && quiz.mode === 'group') {
+        await QuizModel.findByIdAndUpdate(quizId, {
+          isCompleted: true,
+          completedAt: new Date()
+        });
+        io.to(quizId).emit("quiz_completed");
+      }
+    } catch {
     }
   });
 
