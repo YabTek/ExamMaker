@@ -122,7 +122,8 @@ export const startQuiz = async (req: Request, res) => {
     }
 
     const now = new Date();
-    await QuizModel.findByIdAndUpdate(id, { startedAt: now, duration: 50 });
+    const duration = (quiz as any).duration || 300; 
+    await QuizModel.findByIdAndUpdate(id, { startedAt: now, duration });
     new SuccessResponse("Quiz started", { startedAt: now }).send(res);
   } catch (error) {
     errorResponse(error, res);
@@ -136,7 +137,7 @@ export const getTimeLeft = async (req: Request, res) => {
     if (!quiz) throw new NotFoundError("Quiz not found");
 
     const startedAt = (quiz as any).startedAt;
-    const duration = (quiz as any).duration ?? 50;
+    const duration = (quiz as any).duration || 300; 
 
     if (!startedAt) {
       new SuccessResponse("Quiz not started", { timeLeft: duration, started: false }).send(res);
@@ -213,13 +214,25 @@ export const submitQuizAttempt = async (req: AuthRequest, res) => {
     
     if (quiz.mode === 'solo') {
       await quizRepo.markQuizCompleted(quizId);
+    } else if (quiz.mode === 'group') {
+      const updatedQuiz = await quizRepo.getQuizById(quizId);
+      if (updatedQuiz) {
+        const allPlayersCompleted = updatedQuiz.players.every(player => 
+          player.score !== undefined && player.score !== null
+        );
+        
+        if (allPlayersCompleted) {
+          await quizRepo.markQuizCompleted(quizId);
+        }
+      }
     }
 
     new SuccessResponse("Quiz submitted", {
       score: correctCount,
       total: totalQuestions,
       percentage: percentageScore,
-      attemptId: attempt._id
+      attemptId: attempt._id,
+      quizCompleted: quiz.mode === 'solo' ? true : undefined
     }).send(res);
   } catch (error) {
     errorResponse(error, res);
@@ -247,7 +260,6 @@ export const getQuizAttemptDetail = async (req: AuthRequest, res) => {
       throw new NotFoundError("Quiz attempt not found");
     }
     
-    // Verify user owns this attempt
     if (attempt.userId._id.toString() !== user.userId) {
       throw new BadRequestError("Unauthorized access");
     }
