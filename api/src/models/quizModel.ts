@@ -9,6 +9,8 @@ export interface Quiz {
   startedAt?: Date;
   duration?: number; 
   title: string;
+  isCompleted: boolean;
+  completedAt?: Date;
   questions: {
     question: string;
     choices: string[];
@@ -31,8 +33,10 @@ const schema = new Schema<Quiz>(
       required: true,
     },
     startedAt: { type: Date, required: false },
-    duration: { type: Number, required: false, default: 50 },
+    duration: { type: Number, required: false, default: 300 },
     title: { type: String, required: false, default: "quiz" },
+    isCompleted: { type: Boolean, required: false, default: false },
+    completedAt: { type: Date, required: false },
     questions: [
       {
         question: { type: String, required: true },
@@ -44,7 +48,7 @@ const schema = new Schema<Quiz>(
       {
         username: { type: String, required: true },
         isHost: {type: Boolean, required: false, default: false},
-        score: {type: Number, required: false, default: 0},
+        score: {type: Number, required: false},
         hasJoined: {type: Boolean, required: false, default: false}
       }
     ]
