@@ -24,9 +24,9 @@ async function getUserStats(userId: Types.ObjectId) {
     const totalScore = attempts.reduce((sum, a) => sum + a.percentageScore, 0);
     const bestScore = Math.max(...attempts.map(a => a.percentageScore));
     const totalTime = attempts.reduce((sum, a) => sum + a.timeSpent, 0);
+    
     const recentTrend = attempts
-    .slice(0, 10)
-    .reverse()
+    .sort((a, b) => new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime())
     .map(a => ({
       date: a.completedAt,
       score: Math.round(a.percentageScore * 100) / 100
@@ -79,6 +79,10 @@ async function getUserQuizHistory(userId: string, limit: number = 50) {
   }));
 }
 
+async function getUserAttemptForQuiz(userId: string, quizId: string) {
+  return QuizAttemptModel.findOne({ userId, quizId }).lean();
+}
+
 function generateQuizTitle(quizTitle: string, number: number): string {
   if (quizTitle && quizTitle !== 'quiz') {
     return quizTitle;
@@ -92,4 +96,5 @@ export default {
     getUserStats,
     getAttemptDetails,
     getUserQuizHistory,
+    getUserAttemptForQuiz,
 };
