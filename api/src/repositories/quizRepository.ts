@@ -46,6 +46,19 @@ async function updatePlayerScore(quizId: string, playerId: string, score: number
   return updatedQuiz;
 }
 
+async function markQuizCompleted(quizId: string) {
+  return await QuizModel.findByIdAndUpdate(
+    quizId,
+    { 
+      $set: { 
+        isCompleted: true,
+        completedAt: new Date()
+      } 
+    },
+    { new: true }
+  );
+}
+
 
 export default {
   createQuiz,
@@ -53,5 +66,6 @@ export default {
   getAllQuizzes,  
   addPlayer,
   updatePlayerScore,
-  updateStatus
+  updateStatus,
+  markQuizCompleted
 }
