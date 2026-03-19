@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Frijole } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { quizApi } from "@/services/quizApi";
 
 const frijole = Frijole({ weight: "400", subsets: ["latin"] });
@@ -12,8 +12,12 @@ export default function ChooseLanguage() {
     const router = useRouter();
     const [selected, setSelected]  = useState<string | null>(null);
     const [error, setError]  = useState<string | null>(null);
+    const [participationType, setParticipationType] = useState<string | null>(null);
 
-    const participationType = localStorage.getItem("participationType");
+    useEffect(() => {
+      const type = localStorage.getItem("participationType");
+      setParticipationType(type);
+    }, []);
 
     const handleSoloClick = async () => {
       if (!participationType || !selected || (participationType !== "solo")) {
