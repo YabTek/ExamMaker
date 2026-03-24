@@ -3,7 +3,7 @@ import { quizApi } from "@/services/quizApi";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Question {
   question: string;
@@ -11,42 +11,100 @@ interface Question {
   correct_answer: number;
 }
 
+const DEFAULT_DURATION = 300;
+
 export default function Question() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<{ questionIdx: number; answerIdx: number }[]>([]);
-  const [timeLeft, setTimeLeft] = useState(50); 
-  const [finished, setFinished] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_DURATION);
+  const [startTime] = useState(Date.now());
+  const [submitted, setSubmitted] = useState(false);
+  const [participationType, setParticipationType] = useState<string | null>(null);
   const { quizId } = useParams() as { quizId: string };
   const router = useRouter();
 
   useEffect(() => {
-   const fetchQuestions = async () => {
-      try{
+    const type = localStorage.getItem("participationType");
+    setParticipationType(type);
+  }, []);
+
+  const handleFinish = useCallback(async () => {
+    const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+    
+    try {
+      await quizApi.submitQuizAttempt(quizId, answers, timeSpent);
+      
+      const type = localStorage.getItem("participationType");
+      if (type === "solo") {
+        // Solo quiz - redirect immediately
+        router.push(`/result/${quizId}`);
+      } else {
+        // Group quiz - show waiting screen
+        setSubmitted(true);
+      }
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || "Failed to submit quiz. Please try again.";
+      setError(errorMessage);
+      console.error("Quiz submission error:", err);
+    }
+  }, [answers, quizId, startTime, router]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
         const res = await quizApi.fetchQuiz(quizId);
         setQuestions(res.data.questions);
-
+      } catch (err: any) {
+        const errorMessage = err.response?.data?.message || "Failed to generate questions!";
+        setError(errorMessage);
       }
-    catch(err: any) {
-      setError("Failed to generate questions!");
-    }
-   };
-   fetchQuestions();
-  }, []);
+    };
+    fetchQuestions();
+  }, [quizId]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const syncTimer = async () => {
+      try {
+        const res = await quizApi.getTimeLeft(quizId);
+        const { timeLeft: serverTimeLeft, started } = res.data;
+
+        if (cancelled) return;
+
+        if (started) {
+          setTimeLeft(serverTimeLeft);
+        } else {
+          await quizApi.startQuiz(quizId);
+          const retry = await quizApi.getTimeLeft(quizId);
+          if (!cancelled) setTimeLeft(retry.data.timeLeft ?? DEFAULT_DURATION);
+        }
+      } catch {
+        if (!cancelled) setTimeLeft(DEFAULT_DURATION);
+      }
+    };
+
+    syncTimer();
+
+    const interval = setInterval(syncTimer, 1000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [quizId]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      handleFinish();
-      return;
+      if (submitted) {
+        router.push(`/result/${quizId}`);
+      } else {
+        handleFinish();
+      }
     }
-
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timeLeft, finished]);
+  }, [timeLeft, submitted, handleFinish, router, quizId]);
 
   const question_length = questions.length;
 
@@ -74,29 +132,42 @@ export default function Question() {
       setCurrentIndex(currentIndex + 1);
     }
   };
-
-  const handleFinish = async() => {
-    setFinished(true);
-
-    const score = answers.reduce((tot, a) => {
-      const q = questions[a.questionIdx];
-      return tot + (q.correct_answer === a.answerIdx ? 1 : 0);
-    }, 0);
-    await quizApi.updateScore(quizId, score);
-  };
-
-  useEffect(() => {
-    if (finished) {
-      router.push(`/result/${quizId}`);
-    }
-  }, [finished, quizId, router]);
   
   if (question_length === 0) {
     return <p className="text-white text-center mt-20">Loading questions...</p>;
   }
 
+  // Show waiting screen for group quizzes after submission
+  if (submitted && participationType === "group") {
+    return (
+      <div className="relative w-full h-screen flex flex-col justify-center items-center">
+        <Image
+          src="/imggg.png"
+          fill
+          objectFit="cover"
+          alt="Quiz Background"
+          className="absolute inset-0 -z-10"
+        />
+        <div className="absolute top-6 left-4 text-xl sm:text-2xl font-bold text-white rounded-xl glow-text">
+          Time Left: {formatTime(timeLeft)}
+        </div>
+        <div className="text-center space-y-6 px-6">
+          <div className="text-white text-4xl sm:text-5xl font-extrabold glow animate-pulse">
+            ✅ Quiz Submitted!
+          </div>
+          <p className="text-white text-xl sm:text-2xl font-semibold">
+            Waiting for the quiz to end...
+          </p>
+          <p className="text-white text-lg sm:text-xl opacity-80">
+            Results will be shown when the timer reaches zero
+          </p>
+  
+        </div>
+      </div>
+    );
+  }
+
   const currentQuestion = questions[currentIndex];
-  const participationType = localStorage.getItem("participationType");
 
   return (
     <div className="relative w-full h-screen flex flex-col justify-center items-center">
@@ -135,7 +206,7 @@ export default function Question() {
           );
         })}
 
-        {currentIndex === questions.length - 1 && participationType === "solo" && (
+        {currentIndex === questions.length - 1 && (
           <div
             onClick={handleFinish}
             className="text-center text-blue-500 opacity-90 text-xl sm:text-2xl font-bold cursor-pointer glow-text"
