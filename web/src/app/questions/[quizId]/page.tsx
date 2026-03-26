@@ -38,10 +38,8 @@ export default function Question() {
       
       const type = localStorage.getItem("participationType");
       if (type === "solo") {
-        // Solo quiz - redirect immediately
         router.push(`/result/${quizId}`);
       } else {
-        // Group quiz - show waiting screen
         setSubmitted(true);
       }
     } catch (err: any) {
