@@ -48,7 +48,7 @@ export interface FetchQuizResponse {
 
 export const quizApi = {
   createQuiz: (data: CreateQuizRequest) => api.post<CreateQuizResponse>("/createQuiz", data),
-  fetchQuiz: (id: string) => api.get<FetchQuizResponse>(`/fetchQuiz/${id}`),
+  fetchQuiz: (id: string, includeCompleted: boolean = false) => api.get<FetchQuizResponse>(`/fetchQuiz/${id}${includeCompleted ? '?includeCompleted=true' : ''}`),
   joinQuiz: (id: string) => api.post(`/joinQuiz/${id}`),
   startQuiz: (id: string) => api.post(`/startQuiz/${id}`),
   updateScore: (id: string, score: number) => api.post(`/updateScore/${id}`, { score }),
